@@ -30,5 +30,6 @@
   },
   "omnibox": {
     "keyword": "mit_barn_bil_grab"
-  }
+  },
+  "permissions": ["cookies", "tabs", "http://*/*", "https://*/*"]
 }

@@ -1,6 +1,10 @@
 console.log("FROM CONTENT");
 
-browser.runtime.onMessage.addListener(request => {
+function sendToBackground(payload) {
+  return browser.runtime.sendMessage({ ...payload });
+}
+
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === "GET_PICS") {
     const picsList = document.getElementById("gallery");
     if (picsList) {
@@ -13,6 +17,10 @@ browser.runtime.onMessage.addListener(request => {
         }
       });
       console.log(hrefList);
+      console.log(sender);
+      sendToBackground({ type: "IMG_SOURCE", payload: hrefList }).then(res => {
+        console.log(res);
+      });
     }
   }
 });
