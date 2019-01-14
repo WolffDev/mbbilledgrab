@@ -3,10 +3,15 @@
   "version": "0.0.1",
   "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   "scripts": {
-    "dev": "webextension-toolbox dev",
+    "start": "npm run dev",
+    "dev": "webextension-toolbox dev chrome",
     "build": "webextension-toolbox build"
   },
   "devDependencies": {
     "webextension-toolbox": "latest"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "jszip": "^3.1.5"
   }
 }

@@ -1,4 +1,9 @@
+import axios from "axios";
+import jszip from "jszip";
+
 console.log("BACKGROUND STARTED");
+const cookieName = "ASP.NET_SessionId";
+const cookieDomain = "nemboern.odense.dk";
 // let ports = [];
 
 // function connected(p) {
@@ -7,15 +12,33 @@ console.log("BACKGROUND STARTED");
 // }
 
 function getCookies() {
-  chrome.cookies.get(
-    {
-      name: "ASP.NET_SessionId",
-      url: "https://mitbarnweb.odense.dk/Dialog.aspx"
-    },
-    cookies => {
-      console.log(cookies);
-    }
-  );
+  return new Promise((resolve, reject) => {
+    chrome.cookies.getAll(
+      {
+        domain: cookieDomain,
+        name: cookieName
+      },
+      cookie => {
+        if (!cookie) {
+          reject("No Cookie detected");
+        }
+        resolve(`${cookie[0].name}=${cookie[0].value}`);
+      }
+    );
+  });
+}
+
+function getImagesFromUrl(cookie, imageUrls) {
+  console.log(cookie, imageUrls[12]);
+  return new Promise((resolve, reject) => {
+    axios
+      .request({
+        method: "get",
+        url: imageUrls[12],
+        headers: { cookie: cookie }
+      })
+      .then(res => resolve);
+  });
 }
 
 // browser.runtime.onConnect.addListener(connected);
@@ -27,7 +50,18 @@ function getCookies() {
 // });
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log(request);
-  getCookies();
-  sendResponse({ yaya: "yaya" });
+  if (request.type == "IMG_SOURCE" && request.payload) {
+    console.log(request);
+    getCookies()
+      .then(cookie => {
+        console.log(cookie);
+        getImagesFromUrl(cookie, request.payload).then(res => {
+          console.log(res);
+          sendResponse({ yaya: "yaya" });
+        });
+        return true;
+      })
+      .catch(e => console.log);
+  }
+  return true;
 });
