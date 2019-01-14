@@ -1,10 +1,10 @@
 # Mit Barn - Billede Grabber
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Web extension (chrome first) to fetch images, from your children's day care.
 
 ## Install
 
-	$ npm install
+    $ npm install
 
 ## Development
 
@@ -22,8 +22,8 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 ## Environment
 
-The build tool also defines a variable named `process.env.NODE_ENV` in your scripts. 
+The build tool also defines a variable named `process.env.NODE_ENV` in your scripts.
 
 ## Docs
 
-* [webextension-toolbox](https://github.com/HaNdTriX/webextension-toolbox)
+- [webextension-toolbox](https://github.com/HaNdTriX/webextension-toolbox)

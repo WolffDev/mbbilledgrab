@@ -1,6 +1,6 @@
 {
-  "name": "__MSG_appName__",
-  "short_name": "__MSG_appShortName__",
+  "name": "Mit Barn Billede GRabber",
+  "short_name": "MBBilledGrab",
   "description": "__MSG_appDescription__",
   "version": "0.0.0",
   "manifest_version": 2,

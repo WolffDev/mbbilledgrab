@@ -1,7 +1,7 @@
 {
-  "name": "Mit-Barn-Billede-Grabber",
+  "name": "mit-barn-billede-grabber",
   "version": "0.0.1",
-  "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "description": "Web extension (chrome first) to fetch images, from your children's day care.",
   "scripts": {
     "start": "npm run dev",
     "dev": "webextension-toolbox dev chrome",
