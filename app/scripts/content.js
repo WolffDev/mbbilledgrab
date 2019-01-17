@@ -1,10 +1,15 @@
 console.log("FROM CONTENT");
 
 function sendToBackground(payload) {
-  return browser.runtime.sendMessage({ ...payload });
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({ ...payload }, res => {
+      if (!res) reject("ERROR");
+      resolve(res);
+    });
+  });
 }
 
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === "GET_PICS") {
     const picsList = document.getElementById("gallery");
     if (picsList) {
@@ -19,7 +24,9 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       console.log(hrefList);
       console.log(sender);
       sendToBackground({ type: "IMG_SOURCE", payload: hrefList }).then(res => {
-        console.log(res);
+        console.log("Message back from BG", res);
+        sendToBackground(res).then(() => {});
+        return true;
       });
     }
   }
