@@ -1,5 +1,9 @@
 console.log("FROM CONTENT");
 
+import uuidv4 from "uuid/v4";
+
+const csId = uuidv4();
+
 function sendToBackground(payload) {
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage({ ...payload }, res => {
@@ -23,11 +27,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       });
       console.log(hrefList);
       console.log(sender);
-      sendToBackground({ type: "IMG_SOURCE", payload: hrefList }).then(res => {
+      sendToBackground({
+        type: "IMG_SOURCE",
+        payload: { id: csId, hrefList }
+      }).then(res => {
         console.log("Message back from BG", res);
         sendToBackground(res).then(() => {});
         return true;
       });
+    } else {
+      // Not on gallery page
+      // TODO: handle for each content script that is not gallery - and also when there is NO gallery page
     }
   }
 });
