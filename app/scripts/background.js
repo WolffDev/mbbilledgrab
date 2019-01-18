@@ -22,17 +22,23 @@ function getImagesFromUrl(imageUrls) {
         axios.request({
           method: "get",
           url: url,
-          responseType: "blob"
+          responseType: "blob",
+          headers: {
+            accept: "image/webp,image/apng,image/*,*/*;q=0.8"
+          }
         })
       );
     });
 
-    return axios.all(promises).then(results => {
-      results.forEach((response, index) => {
-        responseData.push({ name: "image" + index, data: response.data });
-      });
-      resolve(responseData);
-    });
+    return axios
+      .all(promises)
+      .then(results => {
+        results.forEach((response, index) => {
+          responseData.push({ name: "image" + index, data: response.data });
+        });
+        resolve(responseData);
+      })
+      .catch(err => reject(err));
   });
 }
 
@@ -55,10 +61,13 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         res.map(dataObj => {
           zip.file(`${dataObj.name}.jpg`, dataObj.data, { binary: true });
         });
-        zip.generateAsync({ type: "blob" }).then(content => {
-          saveAs(content, "images.zip");
-          sendResponse({ type: "IMAGES_ZIP", payload: "test" });
-        });
+        zip
+          .generateAsync({ type: "blob" })
+          .then(content => {
+            saveAs(content, "images.zip");
+            sendResponse({ type: "IMAGES_ZIP", payload: "test" });
+          })
+          .catch(err => console.log(err));
 
         return true;
       })

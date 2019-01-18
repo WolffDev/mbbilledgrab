@@ -30,11 +30,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       sendToBackground({
         type: "IMG_SOURCE",
         payload: { id: csId, hrefList }
-      }).then(res => {
-        console.log("Message back from BG", res);
-        sendToBackground(res).then(() => {});
-        return true;
-      });
+      })
+        .then(res => {
+          console.log("Message back from BG", res);
+          sendToBackground(res).then(() => {});
+          return true;
+        })
+        .catch(err => console.log(err));
     } else {
       // Not on gallery page
       // TODO: handle for each content script that is not gallery - and also when there is NO gallery page
